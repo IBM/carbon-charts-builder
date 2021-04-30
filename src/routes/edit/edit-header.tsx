@@ -2,20 +2,16 @@ import React, { useContext } from 'react';
 import { css } from 'emotion';
 import {
 	Button,
-	Checkbox,
 	InlineLoading
 } from 'carbon-components-react';
 import {
 	Copy16,
 	Delete16,
-	// 🏗️🏗️🏗️ Under construction, add in later 🏗️🏗️🏗️
-	// Edit16,
 	Settings16,
 	Share16
 } from '@carbon/icons-react';
 import { ModalContext, ModalActionType } from '../../context/modal-context';
 import { ChartModal } from './chart-modal';
-import { LocalChartsContext, LocalChartActionType } from '../../context/local-charts-context';
 import { ChartsContext } from '../../context';
 
 const editHeader = css`
@@ -59,50 +55,6 @@ const editHeader = css`
 			cursor: pointer;
 		}
 	}
-
-	// This is the viewport width that causes the loading and
-	// store to local charts checkbox to overlap.
-	@media screen and (max-width: 67.0625rem) {
-		.edit-content {
-			.title-subheading {
-				flex-flow: column;
-				.bx--inline-loading {
-					margin-top: 10px;
-				}
-			}
-		}
-	}
-
-	// This is the viewport width that causes the store to local
-	// charts checkbox and last modified label to overlap.
-	@media screen and (max-width: 58.125rem) {
-		.edit-content {
-			flex-direction: column;
-			.title-wrap {
-				margin-top: 10px;
-				align-self: auto;
-			}
-			.title-subheading {
-				flex-direction: row;
-				.bx--inline-loading {
-					margin-top: 0px;
-				}
-			}
-		}
-	}
-
-	// This is the viewport width that causes the loading and store
-	// to local charts to be disfigured.
-	@media screen and (max-width: 42.6875rem) {
-		.edit-content {
-			.title-subheading {
-				flex-direction: column;
-				.bx--inline-loading {
-					margin-top: 10px;
-				}
-			}
-		}
-	}
 `;
 
 const toolBarAction = css`
@@ -121,26 +73,10 @@ const chartEditToolBar = css`
 	.toolBarButtons {
 		min-width: 13.75rem
 	}
-	// This is the viewport width that causes the store to local
-	// charts checkbox and last modified label to overlap.
-	@media screen and (max-width: 58.125rem) {
-		margin-left: 10px;
-		flex-direction: row-reverse;
-		place-self: start;
-	}
-	// This is the viewport width that causes the loading and store
-	// to local charts to be disfigured.
-	@media screen and (max-width: 42.6875rem) {
-		margin-left: 10px;
-		margin-top: 20px;
-		flex-direction: column-reverse;
-		place-self: start;
-	}
 `;
 
 export const EditHeader = ({ chart }: any) => {
 	const [, dispatchModal] = useContext(ModalContext);
-	const [localCharts, updateLocalCharts] = useContext(LocalChartsContext);
 	const [{ currentlyProcessing }] = useContext(ChartsContext);
 
 	return (
@@ -152,10 +88,6 @@ export const EditHeader = ({ chart }: any) => {
 			<div className='edit-content'>
 				<div className='title-wrap'>
 					<p className='chart-title'>{chart.title}</p>
-					{/* 🏗️🏗️🏗️ Under construction, add in later 🏗️🏗️🏗️ */}
-					{/* <div onClick={() => { console.log('Edit clicked.'); }}>
-						<Edit16 className='chart-edit' />
-					</div> */}
 
 					<div className='title-subheading'>
 						<div className='date-wrap'>{`Last modified ${ chart.lastModified}`}</div>
@@ -168,28 +100,6 @@ export const EditHeader = ({ chart }: any) => {
 					</div>
 				</div>
 				<div className={chartEditToolBar}>
-					<Checkbox
-						id='local-chart-checkbox'
-						className={css`margin-top: 12px; margin-right: 9px`}
-						defaultChecked={!!localCharts.find((c: any) => c.id === chart.id)}
-						labelText={
-							<label className={css`margin-right: 3px; font-size: 0.75rem`}>
-								Store to local charts
-							</label>
-						}
-						onChange={(checked: boolean) => {
-							if (checked) {
-								updateLocalCharts({
-									type: LocalChartActionType.ADD,
-									data: { id: chart.id }
-								});
-							} else {
-								updateLocalCharts({
-									type: LocalChartActionType.REMOVE,
-									data: { id: chart.id }
-								});
-							}
-						}} />
 					<div className='toolBarButtons'>
 						<Button
 							kind='ghost'
