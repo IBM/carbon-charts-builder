@@ -8,7 +8,6 @@ import {
 	useFetchOne
 } from '../../context/charts-context';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LocalChartsContext, LocalChartActionType } from '../../context/local-charts-context';
 
 const getUniqueName = (charts: Array<any>, name: string) => {
 	const nameRegEx = new RegExp(String.raw`(.*)\s+(copy)*(\s+(\d+))?$`);
@@ -52,7 +51,6 @@ const getUniqueName = (charts: Array<any>, name: string) => {
 export const DuplicateChartModal = ({ id }: any) => {
 	const [modalState, dispatchModal] = useContext(ModalContext);
 	const [, dispatchNotification] = useContext(NotificationContext);
-	const [, updateLocalCharts] = useContext(LocalChartsContext);
 	const [chartsState, dispatch] = useContext(ChartsContext);
 	useFetchOne(id, dispatch);
 	const history = useHistory();
@@ -74,10 +72,6 @@ export const DuplicateChartModal = ({ id }: any) => {
 			type: ChartActionType.ADD_ONE,
 			data: chartCopy,
 			loaded: true
-		});
-		updateLocalCharts({
-			type: LocalChartActionType.ADD,
-			data: { id: chartCopy.id }
 		});
 		if (location.pathname !== '/') {
 			history.push(`/edit/${chartCopy.id}`);

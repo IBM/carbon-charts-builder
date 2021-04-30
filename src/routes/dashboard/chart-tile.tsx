@@ -8,7 +8,6 @@ import {
 	SkeletonText,
 	Tile
 } from 'carbon-components-react';
-import { LocalChartsContext, LocalChartActionType } from '../../context/local-charts-context';
 import { ModalContext, ModalActionType } from '../../context/modal-context';
 
 const tileWrapper = css`
@@ -82,7 +81,6 @@ export const ChartTile = ({
 }: any) => {
 	const history = useHistory();
 	const [, dispatchModal] = useContext(ModalContext);
-	const [localCharts, updateLocalCharts] = useContext(LocalChartsContext);
 	const handleModalState = (modalAction: ModalActionType) => {
 		setModalChart(chart);
 		dispatchModal({
@@ -126,25 +124,6 @@ export const ChartTile = ({
 							<OverflowMenuItem
 								itemText='Duplicate'
 								onClick={() => { handleModalState(ModalActionType.setDuplicationModal); }}/>
-							{
-								localCharts.find((c: any) => c.id === chart.id)
-									? <OverflowMenuItem
-										itemText='Remove from my charts'
-										onClick={() => {
-											updateLocalCharts({
-												type: LocalChartActionType.REMOVE,
-												data: { id: chart.id }
-											});
-										}} />
-									: <OverflowMenuItem
-										itemText='Add to my charts'
-										onClick={() => {
-											updateLocalCharts({
-												type: LocalChartActionType.ADD,
-												data: { id: chart.id }
-											});
-										}} />
-							}
 							<OverflowMenuItem
 								itemText='Remove'
 								onClick={() => { handleModalState(ModalActionType.setDeletionModal); }}

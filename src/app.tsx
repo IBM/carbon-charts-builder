@@ -12,7 +12,6 @@ import {
 import { ChartsContextProvider } from './context/charts-context';
 import { ModalContextProvider } from './context/modal-context';
 import { NotificationContextProvider } from './context/notification-context';
-import { LocalChartsContextProvider } from './context/local-charts-context';
 import { UIShell } from './components/ui-shell';
 import { css } from 'emotion';
 
@@ -35,20 +34,18 @@ export const App = () => (
 			<ErrorBoundary>
 				<ChartsContextProvider>
 					<NotificationContextProvider>
-						<LocalChartsContextProvider>
-							<UIShell />
-							<Notification />
-							<ModalContextProvider>
-								<Switch>
-									<Route path='/' exact component={Dashboard} />
-									<Route
-										path={['/edit', '/edit/:id']}
-										exact
-										component={Edit} />
-									<Route path="*" component={NotFound} />
-								</Switch>
-							</ModalContextProvider>
-						</LocalChartsContextProvider>
+						<UIShell />
+						<Notification />
+						<ModalContextProvider>
+							<Switch>
+								<Route path='/' exact component={Dashboard} />
+								<Route
+									path={['/edit', '/edit/:id']}
+									exact
+									component={Edit} />
+								<Route path="*" component={NotFound} />
+							</Switch>
+						</ModalContextProvider>
 					</NotificationContextProvider>
 				</ChartsContextProvider>
 			</ErrorBoundary>

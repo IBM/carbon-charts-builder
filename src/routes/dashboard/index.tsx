@@ -14,7 +14,6 @@ import {
 } from './../../components';
 import { ChartTileList } from './chart-tile-list';
 import { ChartWizard } from './chart-wizard/chart-wizard';
-import { LocalChartsContext } from '../../context/local-charts-context';
 import { ChartModal } from '../edit/chart-modal';
 import { ChartsContext, ChartActionType } from '../../context';
 
@@ -55,7 +54,6 @@ export const Dashboard = () => {
 	const [chartTitleFilter, setChartTitleFilter] = useState('');
 	const [sortDirection, setSortDirection] = useState(SortDirection.Ascending);
 	const [displayWizard, setDisplayWizard] = useState(false);
-	const [localCharts] = useContext(LocalChartsContext);
 
 	useEffect(() => {
 		dispatch({
@@ -130,7 +128,6 @@ export const Dashboard = () => {
 								? 'Loading...'
 								: <ChartTileList
 									charts={displayedCharts}
-									localCharts={localCharts}
 									loaded={loaded}
 									setModalChart={setModalChart} />
 						}

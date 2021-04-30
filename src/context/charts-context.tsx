@@ -232,21 +232,33 @@ const chartsReducer = (state: ChartState, action: ChartAction) => {
 	}
 };
 
+const validInitialCharts = (localCharts: any[] | undefined) => {
+	if (!localCharts || !Array.isArray(localCharts)) {
+		return [];
+	}
+
+	return localCharts.filter((chart: any) => !!chart.id && typeof chart.id === 'string');
+};
+
 const ChartsContextProvider = ({ children }: any) => {
 	const initialState: any = {
-		charts: [],
+		charts: validInitialCharts(JSON.parse(localStorage.getItem('localCharts') as string)),
 		loaded: false,
 		currentId: null,
 		shouldMutate: false,
 		shouldRemove: false
 	};
+	const store = useReducer(chartsReducer, initialState);
+	const [state] = store;
 
-	const [state, dispatch] = useReducer(chartsReducer, initialState);
+	React.useEffect(() => {
+		// store only ids to local storage so we don't get into temptation of using other
+		// props that should really be coming from db
+		localStorage.setItem('localCharts', JSON.stringify(state.charts));
+	}, [state.charts]);
 
 	return (
-		<ChartsContext.Provider value={[{
-			...state
-		}, dispatch]}>
+		<ChartsContext.Provider value={store}>
 			{children}
 		</ChartsContext.Provider>
 	);

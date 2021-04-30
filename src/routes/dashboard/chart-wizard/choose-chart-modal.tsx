@@ -33,7 +33,6 @@ import {
 } from '../../../context';
 import { useHistory } from 'react-router-dom';
 import { SelectionTile } from '../../../components/selection-tile';
-import { LocalChartsContext, LocalChartActionType } from '../../../context/local-charts-context';
 import { warningNotificationProps } from '../../../utils/file-tools';
 
 const chartOptions = css`
@@ -85,7 +84,6 @@ export interface ChooseChartModalProps {
 export const ChooseChartModal = (props: ChooseChartModalProps) => {
 	const [selectedChartType, doSetSelectedChartType] = useState<ChartType | null>(null);
 	const [horizontal, setHorizontal] = useState(false);
-	const [, updateLocalCharts] = useContext(LocalChartsContext);
 	const [, dispatch] = useContext(ChartsContext);
 
 	const setSelectedChartType = (chartType: ChartType, horizontal = false) => {
@@ -108,10 +106,6 @@ export const ChooseChartModal = (props: ChooseChartModalProps) => {
 		dispatch({
 			type: ChartActionType.ADD_ONE,
 			data: generatedChart
-		});
-		updateLocalCharts({
-			type: LocalChartActionType.ADD,
-			data: { id: generatedChart.id }
 		});
 		history.push(`/edit/${generatedChart.id}`);
 	};
