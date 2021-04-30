@@ -2,11 +2,9 @@ import React from 'react';
 import {
 	HeaderMenuButton,
 	HeaderName,
-	HeaderNavigation,
 	Header as ShellHeader
 } from 'carbon-components-react/lib/components/UIShell';
 import { css } from 'emotion';
-import { HeaderMenuItemLink } from './header-menu-item-link';
 import { useHistory } from 'react-router-dom';
 
 export const Header = ({ isSideNavExpanded, setIsSideNavExpanded }: any) => {
