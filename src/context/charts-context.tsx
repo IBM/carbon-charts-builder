@@ -214,9 +214,22 @@ const ChartsContextProvider = ({ children }: any) => {
 		currentId: null
 	};
 	const store = useReducer(chartsReducer, initialState);
-	const [state] = store;
+	const [state, dispatch] = store;
 
-	React.useEffect(() => {
+	useEffect(() => {
+		const localCharts = JSON.parse(localStorage.getItem('localCharts') as string);
+		// clean up the hidden charts (those marked for deletion but failed to be deleted)
+		const filteredCharts = localCharts.filter((chart: any) => !chart.hidden);
+		dispatch({
+			type: ChartActionType.UPDATE_ALL,
+			data: filteredCharts,
+			loaded: true
+		});
+		localStorage.setItem('localCharts', JSON.stringify(filteredCharts));
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
 		// store only ids to local storage so we don't get into temptation of using other
 		// props that should really be coming from db
 		localStorage.setItem('localCharts', JSON.stringify(state.charts));
