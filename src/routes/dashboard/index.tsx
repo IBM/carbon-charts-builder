@@ -51,7 +51,7 @@ const searchRowStyles = css`
 
 export const Dashboard = () => {
 	const [{ charts, loaded }, dispatch] = useContext(ChartsContext);
-	const [chartGroupDisplayed, setChartGroupDisplayed] = useState(ChartGroupDisplayed.LocalOnly);
+	const [chartGroupDisplayed, setChartGroupDisplayed] = useState(ChartGroupDisplayed.AllCharts);
 	const [chartTitleFilter, setChartTitleFilter] = useState('');
 	const [sortDirection, setSortDirection] = useState(SortDirection.Ascending);
 	const [displayWizard, setDisplayWizard] = useState(false);
@@ -71,14 +71,6 @@ export const Dashboard = () => {
 		document.title = 'Xenon • Charts as a Service';
 	}, []);
 
-	const getLocalCharts = () => {
-		if (!charts || charts.length === 0) {
-			return [];
-		}
-		// when pagination works, change this to take that into account TODO
-		return charts.filter((chart: any) => localCharts.find((lc: any) => lc.id === chart.id));
-	};
-
 	const filterCharts = (charts: any) => charts.filter((chart: any) => chart.title.toLowerCase()
 		.includes(chartTitleFilter.toLowerCase()) && !chart.hidden)
 		.sort(chartSort(sortDirection));
@@ -86,9 +78,6 @@ export const Dashboard = () => {
 	let displayedCharts;
 
 	switch (chartGroupDisplayed) {
-		case ChartGroupDisplayed.LocalOnly:
-			displayedCharts = filterCharts(getLocalCharts());
-			break;
 		case ChartGroupDisplayed.Templates: {
 			displayedCharts = filterCharts(
 				charts.filter((chart: any) => chart.labels && chart.labels.includes('template'))

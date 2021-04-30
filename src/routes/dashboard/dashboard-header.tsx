@@ -6,8 +6,7 @@ import { ContentSwitcher, Switch } from 'carbon-components-react';
 // knows to select the correct one. Shout if you have a cleaner alternative.
 export enum ChartGroupDisplayed {
 	AllCharts,
-	Templates,
-	LocalOnly
+	Templates
 }
 
 const dashboardHeaderWrapper = css`
@@ -38,7 +37,6 @@ export const DashboardHeader = ({ onDisplayedSwitchHandler, chartGroupDisplayed 
 			selectedIndex={chartGroupDisplayed}>
 			<Switch name={ChartGroupDisplayed.AllCharts} text='All charts' />
 			<Switch name={ChartGroupDisplayed.Templates} text='Templates only' />
-			<Switch name={ChartGroupDisplayed.LocalOnly} text='Local charts' />
 		</ContentSwitcher>
 	</div>
 );
