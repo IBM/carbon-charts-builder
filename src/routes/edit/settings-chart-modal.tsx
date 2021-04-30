@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
 	Modal,
-	Loading,
 	TextInput,
 	Checkbox,
 	TooltipDefinition
@@ -12,7 +11,7 @@ import './chart-modal.scss';
 
 export const SettingsChartModal = ({ chart }: any) => {
 	const [modalState, dispatchModal] = useContext(ModalContext);
-	const [{ currentlyProcessing }, dispatch] = useContext(ChartsContext);
+	const [, dispatch] = useContext(ChartsContext);
 
 	const props = {
 		size: 'sm',
@@ -56,7 +55,6 @@ export const SettingsChartModal = ({ chart }: any) => {
 			hasForm
 			modalHeading='Edit chart settings'
 			primaryButtonText='Save'
-			primaryButtonDisabled={currentlyProcessing}
 			onRequestSubmit={() => updateChartSettings()} >
 			<TextInput
 				id='chartName'
@@ -74,7 +72,6 @@ export const SettingsChartModal = ({ chart }: any) => {
 				direction='bottom'>
 				template
 			</TooltipDefinition>
-			<Loading active={currentlyProcessing} />
 		</Modal>
 	);
 };
