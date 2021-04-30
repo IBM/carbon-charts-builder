@@ -14,9 +14,7 @@ export enum ChartActionType {
 	TOGGLE_VISIBILITY,
 	REMOVE_CHART,
 	REMOVE_CHARTS,
-	RESET_SHOULD_REMOVE,
 	UPDATE_ALL,
-	UPDATE_ONE_NO_MUTATE,
 	UPDATE_ONE
 }
 
@@ -26,9 +24,7 @@ export type ChartAction =
 	ChartActionRemoveChart |
 	ChartActionToggleVisibility |
 	ChartActionRemoveCharts |
-	ChartActionResetShouldRemove |
 	ChartActionUpdateAll |
-	ChartActionUpdateOneNoMutate |
 	ChartActionUpdateOne;
 
 export interface BaseChartAction {
@@ -49,7 +45,6 @@ export interface ChartActionFetchOne extends BaseChartAction {
 export interface ChartActionRemoveChart extends BaseChartAction {
 	type: ChartActionType.REMOVE_CHART;
 	id: string;
-	shouldRemove: boolean;
 }
 
 export interface ChartActionToggleVisibility extends BaseChartAction {
@@ -63,17 +58,8 @@ export interface ChartActionRemoveCharts extends BaseChartAction {
 	ids: string[];
 }
 
-export interface ChartActionResetShouldRemove extends BaseChartAction {
-	type: ChartActionType.RESET_SHOULD_REMOVE;
-}
-
 export interface ChartActionUpdateAll extends BaseChartAction {
 	type: ChartActionType.UPDATE_ALL;
-	data: any;
-}
-
-export interface ChartActionUpdateOneNoMutate extends BaseChartAction {
-	type: ChartActionType.UPDATE_ONE_NO_MUTATE;
 	data: any;
 }
 
@@ -84,8 +70,6 @@ export interface ChartActionUpdateOne extends BaseChartAction {
 
 export interface ChartState {
 	currentId: string | null,
-	shouldMutate: boolean,
-	shouldRemove: boolean,
 	charts: any[],
 	loaded: boolean
 }
@@ -101,16 +85,13 @@ export const useFetchOne = (id: number, dispatch: any) => {
 
 const updateOne = (
 	state: ChartState,
-	action: ChartActionUpdateOne | ChartActionUpdateOneNoMutate,
-	shouldMutate = true
+	action: ChartActionUpdateOne
 ) => {
 	if (!state.charts.length) {
 		return {
 			charts: [action.data],
 			loaded: action.loaded,
-			currentId: action.data.id,
-			shouldMutate,
-			shouldRemove: false
+			currentId: action.data.id
 		};
 	}
 	const updatedChartState = state.charts.map((chart: any) => {
@@ -126,8 +107,7 @@ const updateOne = (
 		...state,
 		charts: updatedChartState,
 		loaded: action.loaded,
-		currentId: action.data.id,
-		shouldMutate
+		currentId: action.data.id
 	};
 };
 
@@ -137,7 +117,6 @@ const chartsReducer = (state: ChartState, action: ChartAction) => {
 			return {
 				...state,
 				currentId: action.data,
-				shouldMutate: false,
 				loaded: true
 			};
 		case ChartActionType.UPDATE_ALL: {
@@ -177,16 +156,12 @@ const chartsReducer = (state: ChartState, action: ChartAction) => {
 		}
 		case ChartActionType.UPDATE_ONE:
 			return updateOne(state, action);
-		case ChartActionType.UPDATE_ONE_NO_MUTATE:
-			return updateOne(state, action, false);
 		case ChartActionType.REMOVE_CHART: {
 			return {
 				...state,
 				charts: state.charts.filter((chart: any) => chart.id !== action.id),
 				loaded: action.loaded,
-				currentId: action.id,
-				shouldRemove: true,
-				shouldMutate: false
+				currentId: action.id
 			};
 		}
 		case ChartActionType.TOGGLE_VISIBILITY: {
@@ -216,17 +191,9 @@ const chartsReducer = (state: ChartState, action: ChartAction) => {
 				...state,
 				charts: expandedCharts,
 				loaded: action.loaded,
-				currentId: action.data.id,
-				shouldMutate: true
+				currentId: action.data.id
 			};
 		}
-		case ChartActionType.RESET_SHOULD_REMOVE:
-			return {
-				...state,
-				currentId: null,
-				shouldRemove: false,
-				shouldMutate: false
-			};
 		default:
 			return state;
 	}
@@ -244,9 +211,7 @@ const ChartsContextProvider = ({ children }: any) => {
 	const initialState: any = {
 		charts: validInitialCharts(JSON.parse(localStorage.getItem('localCharts') as string)),
 		loaded: false,
-		currentId: null,
-		shouldMutate: false,
-		shouldRemove: false
+		currentId: null
 	};
 	const store = useReducer(chartsReducer, initialState);
 	const [state] = store;

@@ -55,7 +55,8 @@ export const DeleteChartModal = ({ id }: any) => {
 	const doDeleteChart = () => {
 		dispatch({
 			type: ChartActionType.REMOVE_CHART,
-			id
+			id,
+			loaded: true
 		});
 	};
 
