@@ -33,14 +33,6 @@ export const Header = ({ isSideNavExpanded, setIsSideNavExpanded }: any) => {
 				onKeyDown={(event: any) => event.key === 'Enter' && history.push('/')}>
 				Xenon {process.env.NODE_ENV === 'development' ? 'Dev' : ''}
 			</HeaderName>
-			<HeaderNavigation aria-label="Xenon Dashboard">
-				<HeaderMenuItemLink
-					href='#'
-					to='#'
-					key=''>
-						Title
-				</HeaderMenuItemLink>
-			</HeaderNavigation>
 		</ShellHeader>
 	);
 };
