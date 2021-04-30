@@ -1,0 +1,12 @@
+.DS_Store
+*.log*
+*_logs.zip
+*.irx
+*.old
+*.swp
+node_modules
+.idea
+.vscode
+.cache
+.cache/
+dist/
