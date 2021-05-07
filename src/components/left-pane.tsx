@@ -49,11 +49,12 @@ export const LeftPane = ({ isSideNavExpanded }: any) => {
 	const [chartState, dispatch] = useContext(ChartsContext);
 	const history = useHistory();
 	const location = history.location.pathname;
+	const pathSegments = location.split('/');
 
-	const id = `${chartState.currentId}`;
+	const id = `${chartState.currentId || pathSegments[pathSegments.length - 1]}`;
 	const chart = chartState.charts.find((chart: any) => chart.id === id);
 
-	const inEdit = !!location.match(/\/edit\//) && chart;
+	const inEdit = !!pathSegments.includes('edit') && chart;
 
 	const [state, setState] = useState<any>({
 		XAxisContentSwitch: null,
