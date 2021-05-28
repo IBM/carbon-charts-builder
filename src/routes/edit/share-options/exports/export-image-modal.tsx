@@ -15,10 +15,15 @@ import {
 	Loading
 } from 'carbon-components-react';
 import { css } from 'emotion';
+import domtoimage from 'dom-to-image';
 import debounce from 'lodash/debounce';
 import { saveBlob, getFullFileName } from '../../../../utils/file-tools';
 import { ShareOptionsModals } from '../share-options-modal';
 import { ModalContext, ModalActionType } from '../../../../context/modal-context';
+import ReactDOM from 'react-dom';
+import { useHistory } from 'react-router';
+import { Chart } from '../../../../components';
+import { ChartsContext } from '../../../../context';
 
 const exportSettingForm = css`
 	width: 23rem;
@@ -67,6 +72,13 @@ const doUpdatePreviewSize = debounce(() => handleResize(), 200);
 
 export const ExportImageModal = (props: ExportImageProps) => {
 	const [modalState, dispatchModal] = useContext(ModalContext);
+	const [chartState] = useContext(ChartsContext);
+	const history = useHistory();
+	const location = history.location.pathname;
+	const pathSegments = location.split('/');
+
+	const id = `${chartState.currentId || pathSegments[pathSegments.length - 1]}`;
+	const chart = chartState.charts.find((chart: any) => chart.id === id);
 
 	const exportSettings = {
 		width: 800,
@@ -152,14 +164,33 @@ export const ExportImageModal = (props: ExportImageProps) => {
 			format: inputs.format
 		};
 		const imageBlob = await getImage(renderProps);
+
 		const fileName = getFullFileName(inputs.chartName, inputs.format);
 		saveBlob(imageBlob, fileName);
 		setIsPerformingAction(false);
 	};
 
+	const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 	const getImage = async(props: RenderProps) => {
-		// TODO create image and return it (blob)
-		return null;
+		const element = document.createElement('div');
+		element.className = 'render-preview';
+		chart.options.rawChartOptions.height = `${props.height || 400}px`;
+		chart.options.rawChartOptions.animations = false;
+
+		(element as HTMLElement).style.position = 'absolute';
+		(element as HTMLElement).style.zIndex = '-1';
+		(element as HTMLElement).style.width = `${props.width || 800}px`;
+		(element as HTMLElement).style.height = `${props.height || 400}px`;
+		(element as HTMLElement).style.minHeight = `${props.height || 400}px`;
+		ReactDOM.render(<Chart chart={chart} />, element);
+		document.body.appendChild(element);
+
+		await sleep(50); // wait for render to finish
+		
+		const imageBlob = await domtoimage.toBlob(element as Node);
+		(element as HTMLElement).remove();
+		return imageBlob;
 	};
 
 	const handleChange = (id: any, value: any) => {
@@ -227,6 +258,9 @@ const ExportModalSettings = ({ inputs, handleChange }: any) => {
 	const getRatio = () => (inputs.width / inputs.height).toFixed(2);
 
 	const onDimensionChange = (id: any, value: any) => {
+		if (!id) {
+			return;
+		}
 		if (isNaN(value) || value === 0) {
 			// eslint-disable-next-line no-param-reassign
 			value = 1;
