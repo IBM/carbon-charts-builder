@@ -5,4 +5,4 @@ export * from './main';
 export * from './chart';
 export * from './grid';
 export * from './notification';
-export * from './left-pane';
+export * from './chart-options-pane';

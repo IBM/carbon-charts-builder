@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { createMemoryHistory } from 'history';
 
 import { DataTable } from '../../routes/edit/data-table/data-table';
-import { LeftPane } from '../../components/left-pane';
+import { ChartOptionsPane } from '../../components/chart-options-pane';
 import {
 	ChartsContextProvider,
 	ChartsContext,
@@ -30,7 +30,7 @@ const TestComponent = () => {
 		<>
 			{chart && <>
 				<DataTable chart={chart} />
-				<LeftPane id={chart.id} />
+				<ChartOptionsPane id={chart.id} />
 			</>}
 		</>
 	);

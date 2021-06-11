@@ -13,6 +13,11 @@ import {
 import { SkeletonPlaceholder } from 'carbon-components-react';
 import '@carbon/charts/styles.css';
 import './chart-preview.scss';
+import { css } from 'emotion';
+
+const chartWrapperStyle = css`
+	width: 100%;
+`;
 
 /* eslint-disable react/prop-types */
 // https://github.com/yannickcr/eslint-plugin-react/issues/2135
@@ -105,10 +110,10 @@ export const Chart = ({ chart }: any) => {
 
 	return (
 		shouldRender
-			? <div>
+			? <div className={chartWrapperStyle}>
 				{getChartType(chart.type)}
 			</div>
-			: <div>
+			: <div className={chartWrapperStyle}>
 				<div className={chartTheme}>
 					<div className='chart-holder bx--chart-holder' style={{ height: '533px' }}>
 					Blink!
