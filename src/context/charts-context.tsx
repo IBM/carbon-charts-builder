@@ -217,7 +217,7 @@ const ChartsContextProvider = ({ children }: any) => {
 	const [state, dispatch] = store;
 
 	useEffect(() => {
-		const localCharts = JSON.parse(localStorage.getItem('localCharts') as string);
+		const localCharts = JSON.parse(localStorage.getItem('localCharts') as string || '[]');
 		// clean up the hidden charts (those marked for deletion but failed to be deleted)
 		const filteredCharts = localCharts.filter((chart: any) => !chart.hidden);
 		dispatch({
