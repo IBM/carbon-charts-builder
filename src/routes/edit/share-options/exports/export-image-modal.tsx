@@ -15,15 +15,13 @@ import {
 	Loading
 } from 'carbon-components-react';
 import { css } from 'emotion';
-import domtoimage from 'dom-to-image';
 import debounce from 'lodash/debounce';
 import { saveBlob, getFullFileName } from '../../../../utils/file-tools';
 import { ShareOptionsModals } from '../share-options-modal';
 import { ModalContext, ModalActionType } from '../../../../context/modal-context';
-import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router';
-import { Chart } from '../../../../components';
 import { ChartsContext } from '../../../../context';
+import { getChartPreview, RenderProps } from '../../../../utils/chart-tools';
 
 const exportSettingForm = css`
 	width: 23rem;
@@ -142,7 +140,7 @@ export const ExportImageModal = (props: ExportImageProps) => {
 				height: previewSize.height
 			}
 		};
-		const imageBlob = await getImage(renderProps);
+		const imageBlob = await getChartPreview(chart, renderProps);
 		const reader = new FileReader();
 		reader.readAsDataURL(imageBlob ? imageBlob : new Blob());
 		reader.onloadend = () => {
@@ -163,34 +161,11 @@ export const ExportImageModal = (props: ExportImageProps) => {
 			height: inputs.height,
 			format: inputs.format
 		};
-		const imageBlob = await getImage(renderProps);
+		const imageBlob = await getChartPreview(chart, renderProps);
 
 		const fileName = getFullFileName(inputs.chartName, inputs.format);
 		saveBlob(imageBlob, fileName);
 		setIsPerformingAction(false);
-	};
-
-	const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-	const getImage = async(props: RenderProps) => {
-		const element = document.createElement('div');
-		element.className = 'render-preview';
-		chart.options.rawChartOptions.height = `${props.height || 400}px`;
-		chart.options.rawChartOptions.animations = false;
-
-		(element as HTMLElement).style.position = 'absolute';
-		(element as HTMLElement).style.zIndex = '-1';
-		(element as HTMLElement).style.width = `${props.width || 800}px`;
-		(element as HTMLElement).style.height = `${props.height || 400}px`;
-		(element as HTMLElement).style.minHeight = `${props.height || 400}px`;
-		ReactDOM.render(<Chart chart={chart} />, element);
-		document.body.appendChild(element);
-
-		await sleep(50); // wait for render to finish
-		
-		const imageBlob = await domtoimage.toBlob(element as Node);
-		(element as HTMLElement).remove();
-		return imageBlob;
 	};
 
 	const handleChange = (id: any, value: any) => {
@@ -239,19 +214,6 @@ export const ExportImageModal = (props: ExportImageProps) => {
 		</Modal>
 	);
 };
-
-export interface RenderProps {
-	id: string,
-	name: string,
-	width?: number,
-	height?: number,
-	format?: string,
-	preview?: { // only sent for preview
-		format?: string, // optional
-		width: number,
-		height: number
-	}
-}
 
 const ExportModalSettings = ({ inputs, handleChange }: any) => {
 	// We assume that a working ratio is never 0 (no 1D charts)

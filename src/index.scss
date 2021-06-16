@@ -11,3 +11,13 @@
 .g10 {
 	@import '~@carbon/charts/styles-g10';
 }
+
+.render-preview {
+	.chart-holder {
+		min-height: 0;
+	}
+	
+	.bx--cc--chart-svg {
+		height: 100%;
+	}
+}

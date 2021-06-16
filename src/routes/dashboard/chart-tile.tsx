@@ -9,6 +9,9 @@ import {
 	Tile
 } from 'carbon-components-react';
 import { ModalContext, ModalActionType } from '../../context/modal-context';
+import { useEffect } from 'react';
+import { getChartPreview, RenderProps } from '../../utils/chart-tools';
+import { useState } from 'react';
 
 const tileWrapper = css`
 	margin: 0.75rem;
@@ -81,6 +84,7 @@ export const ChartTile = ({
 }: any) => {
 	const history = useHistory();
 	const [, dispatchModal] = useContext(ModalContext);
+	const [previewUrl, setPreviewUrl] = useState('');
 	const handleModalState = (modalAction: ModalActionType) => {
 		setModalChart(chart);
 		dispatchModal({
@@ -89,6 +93,30 @@ export const ChartTile = ({
 		});
 	};
 
+	useEffect(() => {
+		const renderProps: RenderProps = {
+			id: chart.id,
+			name: chart.title,
+			width: 800,
+			height: 400,
+			preview: {
+				format: 'png',
+				width: 330,
+				height: 200
+			}
+		};
+
+		(async () => {
+			const imageBlob = await getChartPreview(chart, renderProps);
+			const reader = new FileReader();
+			reader.readAsDataURL(imageBlob ? imageBlob : new Blob());
+			reader.onloadend = () => {
+				const imageUrl: string = reader.result ? reader.result.toString() : '';
+				setPreviewUrl(imageUrl);
+			};
+		})();
+	}, [chart])
+
 	return (
 		<div className={tileWrapper}>
 			<Tile className={tileStyle} >
@@ -96,7 +124,7 @@ export const ChartTile = ({
 					<Link to={to}>
 						<img
 							loading='lazy'
-							src={`/thumbnail/${chart.id}.png?timestamp=${chart.lastModified}`}
+							src={previewUrl}
 							className={chartImage}
 							alt={`chart preview: ${title}`} />
 							{/* TODO actual preview images */}
