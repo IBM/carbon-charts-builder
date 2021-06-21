@@ -66,7 +66,7 @@ export const Dashboard = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		document.title = 'Xenon • Charts as a Service';
+		document.title = 'Carbon Charts Builder';
 	}, []);
 
 	const filterCharts = (charts: any) => charts.filter((chart: any) => chart.title.toLowerCase()

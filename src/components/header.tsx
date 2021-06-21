@@ -17,7 +17,7 @@ export const Header = ({ isSideNavExpanded, setIsSideNavExpanded }: any) => {
 	`;
 
 	return (
-		<ShellHeader aria-label="IBM Xenon" role='banner' tabIndex={0}>
+		<ShellHeader aria-label="IBM Carbon Charts Builder" role='banner' tabIndex={0}>
 			<HeaderMenuButton
 				aria-label={`${isSideNavExpanded ? 'Close menu' : 'Open menu'}`}
 				isActive={isSideNavExpanded}
@@ -25,11 +25,11 @@ export const Header = ({ isSideNavExpanded, setIsSideNavExpanded }: any) => {
 			<HeaderName
 				prefix="IBM"
 				tabIndex={0}
-				title='Xenon home'
+				title='Carbon Charts Builder home'
 				className={headerName}
 				onClick={() => history.push('/')}
 				onKeyDown={(event: any) => event.key === 'Enter' && history.push('/')}>
-				Xenon {process.env.NODE_ENV === 'development' ? 'Dev' : ''}
+				Carbon Charts Builder {process.env.NODE_ENV === 'development' ? 'Dev' : ''}
 			</HeaderName>
 		</ShellHeader>
 	);

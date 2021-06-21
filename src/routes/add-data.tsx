@@ -42,7 +42,7 @@ const switchDataType = (name: string) => {
 				<TextInput id="createTitle" labelText="Title" placeholder="My awesome dataset" />
 
 				<FormLabel className={marginTop()}>Endpoint</FormLabel>
-				<CodeSnippet>https://xenon.ibm.com/api/upload/eGVub24gaXMgYXdlc29tZQ==</CodeSnippet>
+				<CodeSnippet>https://carbon-charts-builder.ibm.com/api/upload/eGVub24gaXMgYXdlc29tZQ==</CodeSnippet>
 
 				<FormLabel className={marginTop()}>Get started</FormLabel>
 				<div className={placeholder}>
