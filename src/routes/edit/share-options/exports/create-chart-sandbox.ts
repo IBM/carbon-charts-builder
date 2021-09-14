@@ -1,4 +1,4 @@
-import { getParameters } from 'codesandbox/lib/api/define';
+import LZString from 'lz-string';
 
 export const createChartSandbox = (chartTemplate: any) => {
 	const files: Record<string, any> = {};
@@ -6,5 +6,8 @@ export const createChartSandbox = (chartTemplate: any) => {
 	Object.keys(chartTemplate)
 		.forEach((filePath: string) => files[filePath] = { content: chartTemplate[filePath] });
 
-	return getParameters({ files });
+	return LZString.compressToBase64(JSON.stringify({ files }))
+		.replace(/\+/g, `-`) // '+' -> '-'
+		.replace(/\//g, `_`) // '/' -> '_'
+		.replace(/=+$/, ``); // Remove ending '='
 };
