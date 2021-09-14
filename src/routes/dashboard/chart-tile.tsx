@@ -93,29 +93,32 @@ export const ChartTile = ({
 		});
 	};
 
-	useEffect(() => {
-		const renderProps: RenderProps = {
-			id: chart.id,
-			name: chart.title,
-			width: 800,
-			height: 400,
-			preview: {
-				format: 'png',
-				width: 330,
-				height: 200
-			}
-		};
+	const renderProps: RenderProps = {
+		id: chart.id,
+		name: chart.title,
+		width: 800,
+		height: 400,
+		preview: {
+			format: 'png',
+			width: 330,
+			height: 200
+		}
+	};
 
-		(async () => {
-			const imageBlob = await getChartPreview(chart, renderProps);
-			const reader = new FileReader();
-			reader.readAsDataURL(imageBlob ? imageBlob : new Blob());
-			reader.onloadend = () => {
-				const imageUrl: string = reader.result ? reader.result.toString() : '';
-				setPreviewUrl(imageUrl);
-			};
-		})();
-	}, [chart])
+	const resetPreview = async () => {
+		const imageBlob = await getChartPreview(chart, renderProps);
+		const reader = new FileReader();
+		reader.readAsDataURL(imageBlob ? imageBlob : new Blob());
+		reader.onloadend = () => {
+			const imageUrl: string = reader.result ? reader.result.toString() : '';
+			setPreviewUrl(imageUrl);
+		};
+	}
+
+	useEffect(() => {
+		resetPreview();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<div className={tileWrapper}>
@@ -152,6 +155,9 @@ export const ChartTile = ({
 							<OverflowMenuItem
 								itemText='Duplicate'
 								onClick={() => { handleModalState(ModalActionType.setDuplicationModal); }}/>
+							<OverflowMenuItem
+								itemText='Reset preview'
+								onClick={resetPreview}/>
 							<OverflowMenuItem
 								itemText='Remove'
 								onClick={() => { handleModalState(ModalActionType.setDeletionModal); }}
