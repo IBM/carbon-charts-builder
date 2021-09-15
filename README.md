@@ -4,6 +4,8 @@ Build all the charts you want, edit them and export them however you want.
 
 No coding required.
 
+[See it in action!](https://ibm.github.io/carbon-charts-builder/)
+
 ## Privacy
 
 All your data is safely stored on your computer, never leaving the browser.
