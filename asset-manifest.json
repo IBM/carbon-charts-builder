@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/carbon-charts-builder/static/css/main.80eea2ef.chunk.css",
-    "main.js": "/carbon-charts-builder/static/js/main.6b42051e.chunk.js",
-    "main.js.map": "/carbon-charts-builder/static/js/main.6b42051e.chunk.js.map",
+    "main.js": "/carbon-charts-builder/static/js/main.ce932cde.chunk.js",
+    "main.js.map": "/carbon-charts-builder/static/js/main.ce932cde.chunk.js.map",
     "runtime-main.js": "/carbon-charts-builder/static/js/runtime-main.2753b472.js",
     "runtime-main.js.map": "/carbon-charts-builder/static/js/runtime-main.2753b472.js.map",
     "static/css/2.48af6036.chunk.css": "/carbon-charts-builder/static/css/2.48af6036.chunk.css",
     "static/js/2.008186c6.chunk.js": "/carbon-charts-builder/static/js/2.008186c6.chunk.js",
     "static/js/2.008186c6.chunk.js.map": "/carbon-charts-builder/static/js/2.008186c6.chunk.js.map",
     "index.html": "/carbon-charts-builder/index.html",
-    "precache-manifest.bd3e2acd519ebf7f8a481609f717ce87.js": "/carbon-charts-builder/precache-manifest.bd3e2acd519ebf7f8a481609f717ce87.js",
+    "precache-manifest.33a10c877d491520ac10fa62ad05e4e4.js": "/carbon-charts-builder/precache-manifest.33a10c877d491520ac10fa62ad05e4e4.js",
     "service-worker.js": "/carbon-charts-builder/service-worker.js",
     "static/css/2.48af6036.chunk.css.map": "/carbon-charts-builder/static/css/2.48af6036.chunk.css.map",
     "static/css/main.80eea2ef.chunk.css.map": "/carbon-charts-builder/static/css/main.80eea2ef.chunk.css.map",
@@ -34,6 +34,6 @@
     "static/css/2.48af6036.chunk.css",
     "static/js/2.008186c6.chunk.js",
     "static/css/main.80eea2ef.chunk.css",
-    "static/js/main.6b42051e.chunk.js"
+    "static/js/main.ce932cde.chunk.js"
   ]
 }
