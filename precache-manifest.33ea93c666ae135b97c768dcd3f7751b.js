@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5d7ec0e5f70554067e582557833fc6bf",
+    "revision": "cde752c8ff81f1980bd23e21ad3bb73c",
     "url": "/carbon-charts-builder/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/carbon-charts-builder/static/css/2.48af6036.chunk.css"
   },
   {
-    "revision": "999440443d4efe973901",
-    "url": "/carbon-charts-builder/static/css/main.80eea2ef.chunk.css"
+    "revision": "c95dd094ffe2c97a705a",
+    "url": "/carbon-charts-builder/static/css/main.48c3fea8.chunk.css"
   },
   {
     "revision": "a99d179b49d573ac5f74",
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/carbon-charts-builder/static/js/2.008186c6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "999440443d4efe973901",
-    "url": "/carbon-charts-builder/static/js/main.ce932cde.chunk.js"
+    "revision": "c95dd094ffe2c97a705a",
+    "url": "/carbon-charts-builder/static/js/main.0fd319a0.chunk.js"
   },
   {
     "revision": "75259c6d5bcf08218719",
