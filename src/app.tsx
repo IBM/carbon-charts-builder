@@ -49,6 +49,9 @@ export const App = () => (
 					</NotificationContextProvider>
 				</ChartsContextProvider>
 			</ErrorBoundary>
+			<span id="forkongithub">
+				<a href="https://github.com/IBM/carbon-charts-builder">Fork on GitHub</a>
+			</span>
 		</div>
 	</Router>
 );
